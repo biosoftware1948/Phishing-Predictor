@@ -6,7 +6,6 @@ import numpy as np
 import sklearn
 
 DIRECTORY_PATH = os.path.dirname(os.path.realpath(__file__))
-FILE_NAME = "PhishingData.arff"
 
 class DataSet(object):
     def __init__(self, file_name):
@@ -27,7 +26,11 @@ class DataSet(object):
             sys.exit(0)
             
         y_data = self.full_data_set["Result"]
+        y_data=y_data.astype('int')
+
         x_data = self.full_data_set.loc[:, self.full_data_set.columns != 'Result']
+        x_data=x_data.astype('int')
+        
         from sklearn.model_selection import train_test_split
         self.x_train, self.x_test, self.y_train, self.y_test =  train_test_split(x_data, y_data, test_size=split_percentage)
         
