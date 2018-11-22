@@ -7,7 +7,7 @@ import sklearn
 
 DIRECTORY_PATH = os.path.dirname(os.path.realpath(__file__))
 
-class DataSet(object):
+class DataObj(object):
     def __init__(self, file_name):
         self.file_path = os.path.join(DIRECTORY_PATH, file_name)
         self.full_data_set = None
@@ -17,7 +17,8 @@ class DataSet(object):
         self.x_test= None
         self.y_test = None
 
-    def load_data(self, split_percentage=0.2):
+class PhishingData(DataObj):
+    def load(self, split_percentage=0.2):
         try:
             data, self.meta_information = arff.loadarff(self.file_path)
             self.full_data_set = pd.DataFrame(data)

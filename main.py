@@ -1,4 +1,4 @@
-from processData import DataSet
+from processData import PhishingData
 
 FILE_NAME = "PhishingData.arff"
 
@@ -14,8 +14,8 @@ def label_occurences(data):
         print("value " + str(key) + " occurs " + str(val/len(data)) + " percent in dataset")
 
 def main():
-    dataSet = DataSet(FILE_NAME)
-    dataSet.load_data()
+    dataSet = PhishingData(FILE_NAME)
+    dataSet.load()
 
     label_occurences(dataSet.y_test)
 
