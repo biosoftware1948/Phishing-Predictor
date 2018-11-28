@@ -1,4 +1,5 @@
 import pandas as pd
+
 from processData import PhishingData
 
 FILE_NAME = "PhishingData.arff"
@@ -20,7 +21,7 @@ def main():
 
     label_occurences(dataSet.y_test)
 
-    classifier = input("\nChoose a classifier:\n1. Random Forest\n2. Linear SVC\n3. K Neighbors\n4. K Means\n");
+    classifier = int(input("\nChoose a classifier:\n1. Random Forest\n2. Linear SVC\n3. K Neighbors\n4. K Means\n"));
     if classifier == 1:
         from sklearn.ensemble import RandomForestClassifier
         clf = RandomForestClassifier(n_estimators=100, max_depth=2, random_state=0)
@@ -39,8 +40,34 @@ def main():
     clf.fit(dataSet.x_train, dataSet.y_train)
     y_prediction = clf.predict(dataSet.x_test)
 
+    if(classifier == 1):
+        featureImportance(clf)
+
     from sklearn.metrics import accuracy_score
     print ("Accuracy of classifier: " + str((accuracy_score(dataSet.y_test, y_prediction))))
+
+def featureImportance(classifier):
+    labels = ("SFH", "popUpWindow", "SSLfinal_State", "Request_URL", "URL_of_Anchor", "Web_traffic", "URL_Length", "age", "has_IP")
+    importances = classifier.feature_importances_
+    print("Printing feature importance below")
+    print (importances)
+    plot(labels, importances)
+
+def plot(labels, importances):
+    import matplotlib.pyplot as plt; plt.rcdefaults()
+    import numpy as np
+    import matplotlib.pyplot as plt
+ 
+    y_pos = np.arange(len(labels))
+ 
+    plt.bar(y_pos, importances, align='center', alpha=0.5)
+    plt.xticks(y_pos, labels)
+    plt.ylabel('Importance')
+    plt.xlabel("Feature")
+    plt.title('Feature Importance when predicting phishing links')
+
+ 
+    plt.show()
 
 def kmeans(dataSet):
     from sklearn.ensemble import RandomForestClassifier
